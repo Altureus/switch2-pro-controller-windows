@@ -50,6 +50,18 @@ controller on every (re)attach, and survives unplugs.
 > button or stick feels off, run **`Map Buttons.bat`** (`map_buttons.py`) — it names each
 > control, you press it, and it writes your own verified mapping.
 
+## Autostart (optional)
+
+Don't want to open `Start Bridge.bat` every time? Double-click **`Install Autostart.bat`** —
+the bridge then launches **silently at every login** (no window), so the controller just
+works. Per-user, no admin.
+
+- **`Stop Bridge.bat`** — stop the hidden bridge now.
+- **`Uninstall Autostart.bat`** — stop launching it at login.
+
+It simply drops a shortcut in your Startup folder that runs `pythonw bridge.py`. You can
+also drive it directly: `python procon2\autostart.py install|uninstall|status|stop`.
+
 ## How & why (deep dive)
 
 See [`procon2/README.md`](procon2/README.md) for the reverse-engineering notes: the report
