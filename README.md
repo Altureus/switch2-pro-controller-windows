@@ -38,10 +38,16 @@ Switch 2 Pro (asleep)  ->  WinUSB bulk wake        (winusb.py)
 
 ## Quick start
 
-1. Install the **ViGEmBus** driver (link above).
-2. Double-click **`Start Bridge.bat`** (or run `python procon2\bridge.py`). Keep the window open.
-3. In Dolphin: set a controller port to **Standard Controller → Configure**, pick the
-   **`XInput/N/Gamepad`** the bridge prints, and bind your controls (or load a profile).
+1. **Install Python 3** — <https://www.python.org/downloads/>. In the installer, tick
+   **"Add python.exe to PATH"**. (No `pip install` needed — this app has *zero* Python dependencies.)
+2. **Install the ViGEmBus driver** — <https://github.com/nefarius/ViGEmBus/releases/latest>
+   (one click; it's the kernel-mode piece that can't be bundled).
+3. **Get this repo** — download the [latest release](../../releases/latest) zip (or `git clone`) and unzip it.
+4. *(Recommended)* double-click **`Setup Check.bat`** — it verifies Python + ViGEmBus are
+   ready and flags anything missing.
+5. Run **`Start Bridge.bat`** and keep the window open. In Dolphin, set a controller port to
+   **Standard Controller → Configure**, pick the **`XInput/N/Gamepad`** it prints, and bind
+   your controls.
 
 The bridge keeps Dolphin pointed at whatever XInput slot it lands on, auto-wakes the
 controller on every (re)attach, and survives unplugs.
