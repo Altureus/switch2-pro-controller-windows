@@ -15,9 +15,9 @@ VERIFIED on real hardware (procon2_probe.py):
   * bytes 16..44  = IMU -- ignored
   * bytes 45..63  = padding 0x00
 
-The exact button bit<->name assignment and stick sign/range come from the
-guided tool `map_buttons.py`, which writes `mapping_data.py`. If that file
-exists it overrides the provisional defaults below (see the bottom of this file).
+The exact button bit<->name assignment and stick sign/range live in the verified
+`mapping_data.py`, which overrides the provisional defaults below when present
+(see the bottom of this file).
 ============================================================================
 """
 
@@ -31,8 +31,8 @@ BUTTONS = ("A", "B", "X", "Y", "UP", "DOWN", "LEFT", "RIGHT",
 # ====================  PROVISIONAL DEFAULTS  ================================
 # Best interpretation of the first freehand capture, assuming strict press
 # order A,B,X,Y / Up,Down,Left,Right / L,R,ZL,ZR / -,+ / L3,R3 / Home,Capture,C
-# / GL,GR. The d-pad/shoulder rows are UNCERTAIN (press-order sensitive) --
-# run map_buttons.py to replace all of this with a verified mapping_data.py.
+# / GL,GR. These provisional bits are superseded by the verified `mapping_data.py`
+# when present (it is, in this repo).
 BUTTON_BITS = {
     "A": (3, 0), "B": (3, 1), "X": (3, 2), "Y": (3, 3),
     "DOWN": (3, 4), "RIGHT": (3, 5), "R3": (3, 6), "R": (3, 7),
@@ -46,7 +46,7 @@ RIGHT_STICK_BYTES = (9, 10, 11)
 STICK_12BIT = True
 
 # Per-axis linear calibration as (raw_at_negative_extreme, raw_at_positive_extreme),
-# where "positive" = Xbox convention (right / up = +32767). Filled by map_buttons.py.
+# where "positive" = Xbox convention (right / up = +32767). Verified values in mapping_data.py.
 # Defaults: symmetric around the observed rest centers, ~±1800 of 12-bit range,
 # Y inverted (raw tends to fall as the stick goes up). Good enough to be usable;
 # calibration makes it exact.
@@ -126,7 +126,7 @@ def is_target_report(report):
     return bool(report) and len(report) >= 6 and report[0] == REPORT_ID
 
 
-# ---- optional override from the guided tool --------------------------------
+# ---- verified mapping override (mapping_data.py) ---------------------------
 try:
     import mapping_data as _md  # noqa
     BUTTON_BITS = getattr(_md, "BUTTON_BITS", BUTTON_BITS)
@@ -137,4 +137,4 @@ try:
     DEADZONE = getattr(_md, "DEADZONE", DEADZONE)
     _SOURCE = "mapping_data.py (calibrated)"
 except ImportError:
-    _SOURCE = "provisional defaults (run map_buttons.py to calibrate)"
+    _SOURCE = "provisional defaults (mapping_data.py not found)"

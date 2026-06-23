@@ -102,7 +102,7 @@ async def main():
         return 1
 
     print(f"\nConnecting to {dev.address} ...")
-    async with BleakClient(dev, timeout=20.0) as client:
+    async with BleakClient(dev, timeout=20.0, winrt={"use_cached_services": False}) as client:
         print("Connected. Configuring...")
         cmd = _Cmd(client)
         await client.start_notify(COMMAND_RESP_UUID, cmd.on_response)

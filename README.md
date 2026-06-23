@@ -48,9 +48,7 @@ Switch 2 Pro (asleep)  ->  WinUSB bulk wake        (winusb.py)
    **`drivers/ViGEmBus_1.22.0_x64_x86_arm64.exe`** (one click, needs admin); it's the
    kernel-mode piece. Newer versions: <https://github.com/nefarius/ViGEmBus/releases/latest>.
 3. **Get this repo** — download the [latest release](../../releases/latest) zip (or `git clone`) and unzip it.
-4. *(Recommended)* double-click **`Setup Check.bat`** — it verifies Python + ViGEmBus are
-   ready and flags anything missing.
-5. Run **`Start (Auto-detect).bat`** — it uses **USB** if the controller is plugged in,
+4. Run **`Start (Auto-detect).bat`** — it uses **USB** if the controller is plugged in,
    otherwise **Bluetooth**, and switches live when you plug or unplug. (Power users can force
    one with `python procon2\launch.py --usb` or `--bluetooth`.) Keep the window open. In Dolphin,
    set a controller port to **Standard Controller → Configure**, pick the **`XInput/N/Gamepad`**
@@ -58,10 +56,6 @@ Switch 2 Pro (asleep)  ->  WinUSB bulk wake        (winusb.py)
 
 The bridge keeps Dolphin pointed at whatever XInput slot it lands on, auto-wakes the
 controller on every (re)attach, and survives unplugs.
-
-> ⚠️ The bundled `procon2/mapping_data.py` is calibrated for **my** controller. If a
-> button or stick feels off, run **`Map Buttons.bat`** (`map_buttons.py`) — it names each
-> control, you press it, and it writes your own verified mapping.
 
 ## Autostart (optional)
 
@@ -109,6 +103,12 @@ button to Steam's on-screen keyboard. Fix it once in **Steam → Settings →
 Controller**: turn **off** Steam Input for **Xbox controllers**, or disable the
 **Desktop Layout** so the controller can't drive your desktop. (Fully quitting
 Steam — tray icon → Exit — stops it immediately.)
+
+**Wireless won't connect — `BleakCharacteristicNotFoundError: ... was not found`.**
+Steam now detects the Switch 2 Pro and **claims its Bluetooth connection**, so the
+bridge connects but can't see the controller's custom characteristics. **Close Steam**
+(tray icon → Exit) and reconnect — that's the fix. Disabling Steam Input isn't enough
+here; Steam still grabs the BLE device, so for the wireless path it has to be closed.
 
 ## Credits
 

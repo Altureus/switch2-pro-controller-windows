@@ -216,6 +216,7 @@ async def run(stop_when=None):
             try:
                 async with BleakClient(
                     dev, timeout=20.0,
+                    winrt={"use_cached_services": False},  # force fresh GATT discovery
                     disconnected_callback=lambda _c: loop.call_soon_threadsafe(disconnected.set),
                 ) as client:
                     print(f"[ble-bridge] connected to {dev.address}.")
@@ -238,6 +239,9 @@ async def run(stop_when=None):
                 print("[ble-bridge] controller disconnected -- holding the pad, reconnecting...")
             except Exception as e:
                 print(f"[ble-bridge] connection error ({type(e).__name__}: {e}) -- retrying...")
+                if "Characteristic" in str(e) or "CharacteristicNotFound" in type(e).__name__:
+                    print("[ble-bridge]   TIP: Steam (which now detects the Switch 2 Pro) is "
+                          "probably holding the controller's Bluetooth. CLOSE STEAM and retry.")
             finally:
                 for t in (hb, rt):
                     if t:

@@ -61,7 +61,7 @@ async def main():
         return 1
 
     try:
-        async with BleakClient(dev, timeout=20.0) as client:
+        async with BleakClient(dev, timeout=20.0, winrt={"use_cached_services": False}) as client:
             print(f"[ble-rumble] connected to {dev.address}; pad on slot {slot}.")
             print("[ble-rumble] Sending Dolphin-style vibration for 3s -- "
                   "HOLD THE CONTROLLER and feel it buzz...")

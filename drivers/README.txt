@@ -1,5 +1,5 @@
-ViGEmBus driver installer (optional -- install only if Setup Check says it's missing)
-=====================================================================================
+ViGEmBus driver installer (install once if you don't already have it)
+====================================================================
 
 ViGEmBus_1.22.0_x64_x86_arm64.exe is the OFFICIAL ViGEmBus driver installer,
 version 1.22.0, by Nefarius Software Solutions e.U. It is bundled here, unmodified,
@@ -9,10 +9,10 @@ ViGEmBus is the kernel-mode driver this app needs to create the virtual Xbox 360
 pad. You only need it once per PC.
 
 HOW TO USE
-  1. Run "Setup Check.bat" (in the parent folder) first.
-  2. If it reports the ViGEmBus driver is missing/not working, double-click
-     ViGEmBus_1.22.0_x64_x86_arm64.exe and follow the prompts (it needs admin).
-  3. Re-run Setup Check to confirm it's working.
+  Double-click ViGEmBus_1.22.0_x64_x86_arm64.exe and follow the prompts (it needs
+  admin). You can also install it from the app's control panel -- the
+  "Install ViGEmBus driver" button. If the bridge won't start and reports a
+  ViGEmBus error, install this.
 
 Official source, newer versions, and license:
   https://github.com/nefarius/ViGEmBus
