@@ -77,7 +77,7 @@ and its sdist runs an interactive driver installer, so we bundle just its
 
 ```powershell
 # everyday: start the bridge, then click Refresh in Dolphin once
-python procon2\bridge.py            # or double-click "Start Bridge.bat"; --debug to watch state
+python procon2\launch.py            # or "Start (Auto-detect).bat"; auto USB/BT, --debug to watch state
 
 # re-map buttons/sticks (only if something feels off):
 python procon2\map_buttons.py       # or "Map Buttons.bat"
@@ -102,7 +102,7 @@ python procon2\test_rumble_e2e.py   # full-chain rumble (hold the controller)
 
 ## Daily use
 
-1. Double-click **`Start Bridge.bat`** (in the repo root). Keep the window open.
+1. Double-click **`Start (Auto-detect).bat`** (in the repo root). Keep the window open.
 2. In Dolphin's controller config, click **Refresh** once (so it re-acquires the
    freshly-created pad — the one habit to remember). Then play.
 

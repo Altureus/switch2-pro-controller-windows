@@ -72,7 +72,7 @@ def main():
         for p in problems:
             print("   - " + p)
         return 1
-    print("All set! Run  Start Bridge.bat , then point Dolphin at the XInput pad.")
+    print("All set! Run  Start (Auto-detect).bat , then point Dolphin at the XInput pad.")
     return 0
 
 

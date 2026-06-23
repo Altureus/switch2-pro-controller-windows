@@ -19,7 +19,7 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-BRIDGE = os.path.join(HERE, "bridge.py")
+LAUNCHER = os.path.join(HERE, "launch.py")   # auto-detect: USB if cabled, else Bluetooth
 LNK_NAME = "Switch 2 Pro Bridge.lnk"
 
 
@@ -54,7 +54,7 @@ def install():
         "$w = New-Object -ComObject WScript.Shell; "
         f"$s = $w.CreateShortcut('{_q(lnk)}'); "
         f"$s.TargetPath = '{_q(pyw)}'; "
-        f"$s.Arguments = '\"{_q(BRIDGE)}\"'; "
+        f"$s.Arguments = '\"{_q(LAUNCHER)}\"'; "
         f"$s.WorkingDirectory = '{_q(HERE)}'; "
         "$s.Description = 'Switch 2 Pro Controller bridge (autostart)'; "
         "$s.Save()"
@@ -80,7 +80,7 @@ def uninstall():
 def _running_pids():
     r = _powershell(
         "Get-CimInstance Win32_Process -Filter \"Name='pythonw.exe' or Name='python.exe'\""
-        " | Where-Object { $_.CommandLine -like '*bridge.py*' }"
+        " | Where-Object { $_.CommandLine -like '*launch.py*' -or $_.CommandLine -like '*bridge.py*' }"
         " | ForEach-Object { $_.ProcessId }")
     return [int(x) for x in r.stdout.split() if x.strip().isdigit()]
 

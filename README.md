@@ -46,8 +46,8 @@ Switch 2 Pro (asleep)  ->  WinUSB bulk wake        (winusb.py)
 4. *(Recommended)* double-click **`Setup Check.bat`** — it verifies Python + ViGEmBus are
    ready and flags anything missing.
 5. Run **`Start (Auto-detect).bat`** — it uses **USB** if the controller is plugged in,
-   otherwise **Bluetooth**. (Prefer a specific transport? Use **`Start Bridge.bat`** for
-   wired or **`Start Wireless Bridge.bat`** for Bluetooth.) Keep the window open. In Dolphin,
+   otherwise **Bluetooth**, and switches live when you plug or unplug. (Power users can force
+   one with `python procon2\launch.py --usb` or `--bluetooth`.) Keep the window open. In Dolphin,
    set a controller port to **Standard Controller → Configure**, pick the **`XInput/N/Gamepad`**
    it prints, and bind your controls.
 
@@ -60,15 +60,15 @@ controller on every (re)attach, and survives unplugs.
 
 ## Autostart (optional)
 
-Don't want to open `Start Bridge.bat` every time? Double-click **`Install Autostart.bat`** —
+Don't want to open `Start (Auto-detect).bat` every time? Double-click **`Install Autostart.bat`** —
 the bridge then launches **silently at every login** (no window), so the controller just
 works. Per-user, no admin.
 
 - **`Stop Bridge.bat`** — stop the hidden bridge now.
 - **`Uninstall Autostart.bat`** — stop launching it at login.
 
-It simply drops a shortcut in your Startup folder that runs `pythonw bridge.py`. You can
-also drive it directly: `python procon2\autostart.py install|uninstall|status|stop`.
+It simply drops a shortcut in your Startup folder that runs `pythonw launch.py` (auto
+USB/Bluetooth). You can also drive it directly: `python procon2\autostart.py install|uninstall|status|stop`.
 
 ## Wireless (Bluetooth) — optional
 
@@ -76,17 +76,18 @@ Got a Bluetooth LE adapter? You can run the bridge **cordless**. Windows' own
 "Add a device" can't pair the Switch 2 Pro (it doesn't use standard
 HID-over-Bluetooth), so this talks to it directly over BLE.
 
-1. **One-time:** `pip install bleak` — or just run the launcher, which installs it
-   for you the first time.
-2. Double-click **`Start Wireless Bridge.bat`**.
+1. **One-time:** `pip install bleak` (only the wireless path needs it; the launcher
+   tells you if it's missing).
+2. Double-click **`Start (Auto-detect).bat`** — with no USB cable connected, it connects
+   over Bluetooth.
 3. **First connection:** hold the small recessed sync button until the player LEDs
    run, so the controller **bonds** to this PC. After that, just turn it on / tap a
    button and it reconnects automatically — no pairing mode needed.
 
 Everything downstream is identical to the wired path: same virtual Xbox 360 pad,
 same Dolphin setup, and **rumble works wirelessly too** (Dolphin → controller over
-BLE — test it with **`Test Wireless Rumble.bat`**). The wireless path is the only
-piece that needs a Python package (`bleak`); the USB path stays zero-dependency.
+BLE). The wireless path is the only piece that needs a Python package (`bleak`); the
+USB path stays zero-dependency.
 
 ## How & why (deep dive)
 
