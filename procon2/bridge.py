@@ -37,8 +37,8 @@ from vigem import X360Pad, Btn  # noqa: E402
 
 # Nintendo logical button -> Xbox 360 (XUSB) output. ZL/ZR are digital on Switch
 # -> mapped to FULL analog triggers (what GameCube emulation expects). GL/GR (rear
-# paddles) -> Right Shoulder = GameCube Z. CAPTURE / C and the stick-clicks (L3/R3)
-# have no native X360 slot in this layout and are unmapped.
+# paddles) -> Right Shoulder = GameCube Z. The stick-clicks (L3/R3) -> Xbox thumb
+# buttons (joy.cpl buttons 9 and 10). CAPTURE / C have no native X360 slot here.
 BUTTON_TO_XUSB = {
     "A": Btn.A,
     "B": Btn.B,
@@ -52,6 +52,8 @@ BUTTON_TO_XUSB = {
     "R": Btn.RIGHT_SHOULDER,
     "MINUS": Btn.BACK,
     "PLUS": Btn.START,
+    "L3": Btn.LEFT_THUMB,    # left stick click  -> joy.cpl button 9
+    "R3": Btn.RIGHT_THUMB,   # right stick click -> joy.cpl button 10
     # GL/GR rear paddles -> Right Shoulder, which the Dolphin profile binds to
     # GameCube Z -- so the paddles act as extra Z buttons (alongside the R bumper).
     "GL": Btn.RIGHT_SHOULDER,
@@ -128,7 +130,7 @@ def _sync_dolphin_slot(slot, port="GCPad1"):
         pass
 
 
-def run(debug=False, debug_hz=10.0, dolphin_sync=True):
+def run(debug=False, debug_hz=10.0, dolphin_sync=True, stop_when=None):
     print("[bridge] creating virtual Xbox 360 pad via ViGEmBus...")
     xi = xinput.load()
     before = xinput.connected_slots(xi)
@@ -171,9 +173,13 @@ def run(debug=False, debug_hz=10.0, dolphin_sync=True):
         except Exception:
             pass
 
+    result = "quit"
     try:
         while True:
             try:
+                if stop_when and stop_when():
+                    result = "switch"
+                    break
                 # ---- make sure we're attached to the controller ----
                 try:
                     dev = hid.find_device()
@@ -217,6 +223,8 @@ def run(debug=False, debug_hz=10.0, dolphin_sync=True):
 
                 # ---- read loop ----
                 while True:
+                    if stop_when and stop_when():
+                        break
                     try:
                         rep = hid.read_report(h, in_len, READ_TIMEOUT_MS)
                     except Exception:
@@ -306,13 +314,15 @@ def run(debug=False, debug_hz=10.0, dolphin_sync=True):
                 time.sleep(RECONNECT_WAIT)
     except KeyboardInterrupt:
         print("\n[bridge] stopping (Ctrl+C).")
+        result = "quit"
     finally:
         safe_neutral()
         try:
             pad.close()
         except Exception:
             pass
-        print("[bridge] virtual pad removed. Bye.")
+        print("[bridge] virtual pad removed.")
+    return result
 
 
 def main():

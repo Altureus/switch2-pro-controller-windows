@@ -1,0 +1,8 @@
+# The WIRED USB bridge (Start Bridge.bat / bridge.py) needs ZERO Python packages
+# -- it is pure ctypes. You only need anything here for the optional WIRELESS
+# (Bluetooth LE) path.
+#
+#   pip install -r requirements.txt
+#
+# Wireless (Bluetooth LE) path only -- Start Wireless Bridge.bat / ble_bridge.py:
+bleak>=0.22        # Windows BLE; pulls in winrt-runtime automatically
