@@ -18,3 +18,7 @@ scratch/
 build/
 dist/
 *.spec
+
+# stray local scratch (smoke-test output); never track
+/so.txt
+/se.txt
