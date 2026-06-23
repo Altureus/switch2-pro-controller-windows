@@ -5,7 +5,7 @@ mapping.py -- parse a Switch 2 Pro Controller HID input report into logical stat
   report bytes (Nintendo custom layout)  ->  ParsedState(buttons, sticks)
 
 ================================  STATUS  ===================================
-VERIFIED on real hardware (procon2_probe.py):
+VERIFIED on real hardware:
   * report id   = 0x09, length 64
   * byte 1      = frame counter
   * byte 2      = 0x23 constant marker

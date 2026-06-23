@@ -290,16 +290,18 @@ class App:
 
 
 def main():
+    # A frozen --windowed build has no console; if we were spawned with a stdout pipe
+    # (the GUI's Start, or --selftest), reattach to it so our output is captured.
+    if getattr(sys, "frozen", False):
+        try:
+            sys.stdout = os.fdopen(1, "w", buffering=1, encoding="utf-8", errors="replace")
+            sys.stderr = sys.stdout
+        except Exception:
+            pass
+
     # multi-call binary: when relaunched as the bridge runner (from the GUI's Start),
-    # run the bridge instead of building the window. A frozen --windowed build has no
-    # console, so reattach stdout to the inherited pipe first.
+    # run the bridge instead of building the window.
     if "--run-bridge" in sys.argv:
-        if getattr(sys, "frozen", False):
-            try:
-                sys.stdout = os.fdopen(1, "w", buffering=1, encoding="utf-8", errors="replace")
-                sys.stderr = sys.stdout
-            except Exception:
-                pass
         sys.argv = [sys.argv[0]] + [a for a in sys.argv[1:] if a != "--run-bridge"]
         import launch
         launch.main()

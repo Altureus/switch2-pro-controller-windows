@@ -21,8 +21,8 @@ the ViGEmClient DLL. Runs on any CPython including 3.14 — no compiler needed.
 |---|---|
 | Wake the controller (it boots **asleep**) over WinUSB bulk → it streams @~250 Hz | ✅ proven (`winusb.py`) |
 | Read HID reports via pure ctypes | ✅ proven |
-| Virtual Xbox 360 pad via ViGEmBus → readable by XInput | ✅ proven (`selftest_vigem.py`, 7/7) |
-| Full pipeline controller → parse → ViGEm → XInput | ✅ proven (`selftest_bridge.py`, 255 rep/s) |
+| Virtual Xbox 360 pad via ViGEmBus → readable by XInput | ✅ proven |
+| Full pipeline controller → parse → ViGEm → XInput | ✅ proven (~255 reports/s) |
 | Auto-reconnect loop **+ auto-wake on every (re)attach** | ✅ built (`bridge.py`) |
 | Exact button-bit + stick-byte mapping | ✅ done (`mapping_data.py`) |
 | **Rumble**: Dolphin → controller haptics | ✅ HID output report `0x02` (`haptics.py`), safe captured values |
@@ -61,27 +61,11 @@ and its sdist runs an interactive driver installer, so we bundle just its
 | `haptics.py`        | **rumble** out — HID output report `0x02`, safe captured haptic payloads |
 | `vendor/`           | bundled `ViGEmClient.dll` (+ x86 fallback) and the fetch script |
 
-**Tools & tests (run as needed):**
-
-| File | Purpose |
-|---|---|
-| `procon2_probe.py`  | low-level raw-HID inspector (for re-reverse-engineering) |
-| `diag.py`           | live pipeline diagnostic (controller→parse→ViGEm→XInput, per-press) |
-| `selftest_vigem.py` | ViGEm → XInput round-trip proof |
-| `selftest_bridge.py`| full input-pipeline proof (real controller, ~3 s) |
-| `test_rumble.py`    | controller-side rumble smoke test |
-| `test_rumble_e2e.py`| full-chain rumble test (simulated Dolphin vibration → controller) |
-
 ## Run
 
 ```powershell
 # everyday: start the bridge, then click Refresh in Dolphin once
 python procon2\launch.py            # or "Start (Auto-detect).bat"; auto USB/BT, --debug to watch state
-
-# tests / diagnostics (optional):
-python procon2\selftest_vigem.py    # ViGEm -> XInput, expect 7/7 PASS
-python procon2\selftest_bridge.py   # full input pipeline, expect "PIPELINE LIVE"
-python procon2\test_rumble_e2e.py   # full-chain rumble (hold the controller)
 ```
 
 ## Status — complete

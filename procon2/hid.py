@@ -2,8 +2,7 @@
 r"""
 hid.py -- minimal pure-ctypes Win32 HID layer (enumerate / open / read).
 
-Extracted from the proven procon2_probe.py so the bridge and probe share one
-code path. Zero third-party dependencies; Windows-only.
+Zero third-party dependencies; Windows-only.
 """
 import ctypes as C
 import sys
